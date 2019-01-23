@@ -1,0 +1,6 @@
+sequence = input("Introduce the sequence:").upper()
+print("Total length:",len(sequence))
+print("A:",sequence.count("A"))
+print("C:",sequence.count("C"))
+print("G:",sequence.count("G"))
+print("T:",sequence.count("T"))
