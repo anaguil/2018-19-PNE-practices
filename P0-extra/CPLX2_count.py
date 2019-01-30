@@ -9,6 +9,13 @@ with open(file) as f:
         if line.startswith(">"):
             pass
         else:
-            count= line.count("A")
-            counter_a += count
+            counter_a = line.count("A")
+            count_a += counter_a
+            counter_c = line.count("C")
+            count_c += counter_c
+            counter_g = line.count("G")
+            count_g += counter_g
+            counter_t = line.count("T")
+            count_t += counter_t
+    print("The number of bases in this file is: \n A: ", count_a, "\nC: ", count_c, "\nG: ", count_g, "\nT: ", count_t)
 
