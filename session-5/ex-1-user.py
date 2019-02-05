@@ -1,9 +1,18 @@
 def count_a(seq):
     """Counting the number of As in the sequence"""
-    result = 0
+    count_a = 0
+    count_c = 0
+    count_g = 0
+    count_t = 0
     for b in seq:
         if b == "A":
-            result += 1
+            count_a += 1
+        elif b == "C":
+            count_c += 1
+        elif b == "G":
+            count_g += 1
+        elif b == "T":
+            count_t += 1
 
     # Return the result
     return result
