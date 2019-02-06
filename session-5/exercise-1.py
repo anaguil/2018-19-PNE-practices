@@ -1,5 +1,5 @@
 def count_bases(seq):
-    """Counting the number of As in the sequence"""
+    """Counting the number of bases in the sequence"""
     count_a = 0
     count_c = 0
     count_g = 0
