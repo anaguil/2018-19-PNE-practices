@@ -24,34 +24,21 @@ def count_bases(seq):
 s1 = input("Enter the sequence 1: ")
 s2 = input("Enter the sequence 2: ")
 
-dictionary_bases = count_bases(s1)
-
-# Calculate the total length
-tl_1 = len(s1)
-
-print("Sequence 1 is {} bases in length".format(tl_1))
-
-for key, value in dictionary_bases.items():
-    print(key)
-    print("  Counter:", value)
-    if tl_1 > 0:
-        perc = round(100 * value / tl_1, 1)
-    else:
-        perc = 0
-    print("  Percentage: {}".format(perc))
+sequences = [s1,s2]
 
 
-# Now for the second sequence
-dictionary_bases = count_bases(s2)
-tl_2 = len(s2)
+for s in sequences:
+    dictionary_bases = count_bases(s)
+    tl = len(s)
 
-print("Sequence 2 is {} bases in length".format(tl_2))
+    print("The sequence is {} bases in length".format(tl))
 
-for key, value in dictionary_bases.items():
-    print(key)
-    print("  Counter:", value)
-    if tl_2 > 0:
-        perc = round(100 * value / tl_2, 1)
-    else:
-        perc = 0
-    print("  Percentage: {}".format(perc))
+    for key, value in dictionary_bases.items():
+        print(key)
+        print("  Counter:", value)
+        if tl > 0:
+            perc = round(100 * value / tl, 1)
+        else:
+            perc = 0
+        print("  Percentage: {}".format(perc))
+    print()
