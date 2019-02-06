@@ -27,11 +27,11 @@ s2 = input("Enter the sequence 2: ")
 sequences = [s1,s2]
 
 
-for s in sequences:
+for i,s in enumerate(sequences):
     dictionary_bases = count_bases(s)
     tl = len(s)
 
-    print("The sequence is {} bases in length".format(tl))
+    print("\nThe sequence",i+1 , "is {} bases in length".format(tl))
 
     for key, value in dictionary_bases.items():
         print(key)
