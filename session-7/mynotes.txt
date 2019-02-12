@@ -1,0 +1,40 @@
+Client-server model
+
+program C = client
+program S = server
+
+Client does a request to the server (starts the communication), server responds . The server can respond many clients.
+If there is no clients there is no problem. The server is there waiting.
+But if there is a client and there is no server, we have a problem. Before creating the client we need to execute the server.
+
+The programs run inside a computer, mobile phone, table.. There are other programs inside these computers apart from the client's or the server's.
+You can execute in the same computer both programs, the client and the server.
+
+The programs are connected by Internet. Internet is composed of many computers interconnected. They are connected in networks (separated in different groups).
+IP address refers to the network interface so that one computer can have more than 1 IP addresses depending to what it is connected. (1 IP address for each connection)
+The IP can change depending to which computer you connect.
+
+My phone IP address at URJC is: 10.0.54.84
+The IP address of my computer at the lab is: 212.128.253.80
+Teacher's IP address: 212.128.253.64
+
+Ping
+It is a request to see if the connection works. You stop it by pressing ctr-C.
+The ping command also informs you about the time it takes for the Ping message to reach the machine and return to your computer
+* ping time to 8.8.8.8: time = 3.44 ms
+* ping time to my computer: time = 0.065 ms (65 microseconds)
+* ping time to a computer in te same network: time = 0.605 ms (605 microseconds)
+* ping time to my mobile phone: time = 4.98 ms
+
+URL: identifying a computer interface for humans. The URL has an IP address.
+* ping to www.google.com: 216.58.211.228 (IP direction)
+* ping to www.urjc.es: 212.128.240.50
+
+Port: number that identifies the applications that are available to connect. One computer has 1 IP address and several ports (number of servers)
+For indentifying app we use the pair (IP, port)
+
+A socket is an object for communicating with the server
+
+**THIS IS A TEXT EXAMPLE FOR ADDING TO MY FILE**
+
+**THIS IS A TEXT EXAMPLE FOR ADDING TO MY FILE**
