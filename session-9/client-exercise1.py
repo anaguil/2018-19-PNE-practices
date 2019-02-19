@@ -1,11 +1,13 @@
 import socket
+import termcolor
 
 # SERVER IP, PORT
 IP = "212.128.253.77"
 PORT = 8080
 
+loop = True
 
-while True:
+while loop == True:
     # Only connect to the server when you have data to send.
     msg = input("Enter a message: ")
 
@@ -20,7 +22,13 @@ while True:
     # Receive the servers response
     response = s.recv(2048).decode()
 
-    # Print the server's response
-    print("Response: {}".format(response))
+    if response == "":
+        s.close()
+        loop = False
 
-    s.close()
+
+    # Print the server's response
+    else:
+        print("Response: ")
+        termcolor.cprint(response, 'red')
+        s.close()
