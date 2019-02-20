@@ -1,38 +1,53 @@
 import socket
+from seq import Seq
 
-PORT = 8080
-IP = "212.128.253.77"
+PORT = 8081
+IP = "212.128.253.86"
 MAX_OPEN_REQUEST = 5
+l_response = list()
+
+serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+serversocket.bind((IP, PORT))
+serversocket.listen(MAX_OPEN_REQUEST)
+print("Socket ready: {}", format(serversocket))
 
 def process_client(cs):
     """Function to read the info of the client and process it"""
-
-    # Reading the message from the client. We decode to transform from bytes to string
     msg = cs.recv(2048).decode("utf-8")
-    print("Message from the client: ", msg)
-    cs.send(str.encode(msg))
-    cs.close()
+    msg = msg.split("\n")
+    if msg[0] == "":
+        cs.send(str.encode("Alive"))
+        cs.close()
+    else:
+        counter = 0
+        for base in msg[0]:
+            if base != "A" and base != "C" and base != "G" and base != "T":
+                counter += 1
+        if counter > 0:
+            cs.send(str.encode("ERROR"))
+            cs.close()
+        else:
+            l_response.append("OK")
+            sequence = Seq(msg[0])
+            for elem in msg[1:]:
+                if msg == "len":
+                    l_response.append("\n")
+                    l_response.append(str(sequence.len()))
+                elif msg == "complement":
+                    l_response.append("\n")
+                    l_response.append(sequence.complement())
 
+        message = ""
+        for element in l_response:
+            message = message + element + "\n"
+        cs.send(str.encode(message))
+        cs.close()
 
-# Create a socket to connect to the clients (internet, type of socket created (type string))
-serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-# Binding our socket to this parameter (tuple)
-serversocket.bind((IP, PORT))
-
-# Change the type of socket to listen to requests from clients
-serversocket.listen(MAX_OPEN_REQUEST)
-
-print("Socket ready: {}", format(serversocket))
 
 while True:
     print("Waiting for connections at: {}, {}".format(IP, PORT))
-
-    # Method that will block the server and wait until the client is connected,
-    # it returns a client socket and the IP address of the client
     (clientsocket, address) = serversocket.accept()
 
-    # -- Process the client request
     print("Attending client: {}".format(address))
 
     process_client(clientsocket)
