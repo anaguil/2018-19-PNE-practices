@@ -4,6 +4,8 @@ from seq import Seq
 PORT = 8080
 IP = "212.128.253.86"
 MAX_OPEN_REQUEST = 5
+
+# Create an empty list to add the messages from the server to the client
 l_response = list()
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -15,21 +17,27 @@ print("Socket ready: {}", format(serversocket))
 def process_client(cs):
     """Function to read the info of the client and process it"""
     msg = cs.recv(2048).decode("utf-8")
+    
+    # Obtain from the client's message a list with the parts of the message
     msg = msg.split("\n")
     if msg[0] == "":
         cs.send(str.encode("Alive"))
         cs.close()
     else:
         counter = 0
+        # If the sequence is not valid, send ERROR
         for base in msg[0]:
             if base != "A" and base != "C" and base != "G" and base != "T":
                 counter += 1
         if counter > 0:
             cs.send(str.encode("ERROR"))
             cs.close()
+        # If the sequence is valid, start with the operations
         else:
             l_response.append("OK")
+            # Transform the sequence from the client into class Seq
             sequence = Seq(msg[0])
+            # Remove from the list the actual sequence to work with the other parameters
             msg = msg.remove(msg[0])
             for elem in msg:
                 if elem == "len":
@@ -61,13 +69,15 @@ def process_client(cs):
                 else:
                     cs.send(str.encode("ERROR"))
                     cs.close()
-
+        # Create an empty message to add the elements of the list of responses 
         message = ""
         for element in l_response:
             message = message + element + "\n"
+        # Send to the client a str, not a list
         cs.send(str.encode(message))
         cs.close()
-
+        
+# -- Main program
 
 while True:
     print("Waiting for connections at: {}, {}".format(IP, PORT))
