@@ -1,10 +1,10 @@
 import socket
 
 # SERVER IP, PORT
-IP = "212.128.253.86"
-PORT = 8080
+IP = "212.128.253.104"
+PORT = 8081
 
-msg = """AGCTACGT\nlen\ncomplement\ncountA\ncountC"""
+msg = """acgt\nlen\ncountA\ncountG\npercC"""
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((IP, PORT))
