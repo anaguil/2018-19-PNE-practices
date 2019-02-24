@@ -16,5 +16,6 @@ s.send(str.encode(sequence))
 
 # Recieve the complement of the sequence from the server
 msg = s.recv(2048).decode("utf-8")
-print(msg)
+msg2 = s.recv(2048).decode("utf-8")
+print(msg , msg2)
 s.close()
