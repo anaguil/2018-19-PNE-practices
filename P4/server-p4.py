@@ -1,7 +1,7 @@
 import socket
 
 IP = "212.128.253.104"
-PORT = 8081
+PORT = 8080
 MAX_OPEN_REQUESTS = 5
 
 
@@ -12,15 +12,15 @@ def process_client(cs):
     # Read client message. Decode it as a string
     msg = cs.recv(2048).decode("utf-8")
 
-    if msg == str(IP) + str(PORT) + "/":
+    if msg == "":
         index = open("index.html")
         content = index.read()
         index.close()
-    elif msg == "212.128.253.104:8080/blue":
+    elif msg == "blue.html":
         blue = open("blue.html")
         content = blue.read()
         blue.close()
-    elif msg == "/pink":
+    elif msg == "pink.html":
         pink = open("pink.html")
         content = pink.read()
         pink.close()
