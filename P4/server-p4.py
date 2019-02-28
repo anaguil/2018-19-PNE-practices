@@ -11,24 +11,26 @@ def process_client(cs):
 
     # Read client message. Decode it as a string
     msg = cs.recv(2048).decode("utf-8")
+    print(msg)
+    # Take only the header from the entire request
+    msg = msg.split("\n")[0]
+    # Take the second element that contains the name of the page that the client is requesting
+    msg = msg.split()[1]
 
-    if msg == "":
-        index = open("index.html")
-        content = index.read()
-        index.close()
-    elif msg == "blue.html":
-        blue = open("blue.html")
-        content = blue.read()
-        blue.close()
-    elif msg == "pink.html":
-        pink = open("pink.html")
-        content = pink.read()
-        pink.close()
+    if msg.endswith("/"):
+        f = open("index.html")
+        content = f.read()
+    elif "blue" in msg:
+        f = open("blue.html")
+        content = f.read()
+    elif "pink" in msg:
+        f = open("pink.html")
+        content = f.read()
     else:
-        error = open("error.html")
-        content = error.read()
-        error.close()
+        f = open("error.html")
+        content = f.read()
 
+    f.close()
     status_line = "HTTP/1.1 200 OK\r\n"
     header = "Content-Type: text/html\r\n"
     header += "Content-Length: {}\r\n".format(len(str.encode(content)))
