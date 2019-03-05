@@ -1,7 +1,7 @@
 import socket
 
 IP = "212.128.253.94"
-PORT = 8080
+PORT = 8081
 MAX_OPEN_REQUESTS = 5
 
 
@@ -13,20 +13,17 @@ def process_client(cs):
     msg = cs.recv(2048).decode("utf-8")
     print(msg)
     # Take only the header from the entire request
-    msg = msg.split("\n")[0]
+    """msg = msg.split("\n")[0]"""
     # Take the second element that contains the name of the page that the client is requesting
-    try:
-        msg = msg.split()[1]
-    except IndexError:
-        return
+    msg = msg.split()[1]
     print(msg)
-    if msg.endswith("/") or msg.endswith("/index.html"):
+    if msg == ("/") or msg.endswith("/index.html"):
         f = open("index.html")
         content = f.read()
-    elif msg.endswith("/blue.html"):
+    elif msg.startswith("/blue"):
         f = open("blue.html")
         content = f.read()
-    elif msg.endswith("/pink.html"):
+    elif msg.startswith("/pink"):
         f = open("pink.html")
         content = f.read()
     else:
