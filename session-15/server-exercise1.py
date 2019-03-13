@@ -1,37 +1,48 @@
 import http.server
 import socketserver
 
-PORT = 8000
+PORT = 8001
 
 
 class TestHandler(http.server.BaseHTTPRequestHandler):
 
     def do_GET(self):
+        print("Path:", self.path)
 
-        # -- Printing the request line
+        if self.path == "/" or self.path.endswith("form1.html"):
+            f = open("form1.html", 'r')
+            contents = f.read()
 
-        f = open("form1.html", 'r')
-        contents = f.read()
+        elif self.path.startswith("/echo"):
+            message = self.path
+            i = message.find("=")
+            message = message[i+1:]
+            print(message)
 
-        message = self.path
-        i = message.find("=")
-        message = message[i+1:]
-        print(message)
-        html_text_1 = """<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Response</title>
-    </head>
-    <body>
-    Echo received:<br>"""
-        html_text_2 = """<p>{}</p>""".format(message)
-        html_text_3 = """<p><a href="form1.html">[Main Page]</a></body></html>"""
-        f = open("response-page.html", 'w')
-        f.write(html_text_1 + html_text_2 + html_text_3)
-        f.close()
-        f = open("response-page.html", 'r')
-        f.close()
+            html_text_1 = """<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Response</title>
+        </head>
+        <body>
+        <h1>Echo received:</h1>"""
+            html_text_2 = """<p>{}</p>""".format(message)
+            html_text_3 = """<p><a href="form1.html">[Main Page]</a></body></html>"""
+
+            f = open("response-page.html", 'w')
+            f.write(html_text_1 + html_text_2 + html_text_3)
+            f.close()
+
+            f = open("response-page.html", 'r')
+            contents = f.read()
+            f.close()
+
+        else:
+            f = open("error.html", 'r')
+            contents = f.read()
+            f.close()
+
         self.send_response(200)
         self.send_header('Content-Type', 'text/html')
         self.send_header('Content-Length', len(str.encode(contents)))
@@ -40,6 +51,9 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         # -- Sending the body of the response message
         self.wfile.write(str.encode(contents))
 
+
+
+        return
 
 # -- Main program
 # Empty address means that it is your own (localhost)
