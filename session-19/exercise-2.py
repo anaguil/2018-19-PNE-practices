@@ -1,5 +1,6 @@
 import http.client
 import json
+import sys
 
 # -- API information
 HOSTNAME = "www.metaweather.com"
@@ -32,37 +33,34 @@ text_json = r1.read().decode("utf-8")
 conn.close()
 
 weather = json.loads(text_json)
-woeid = weather[0]['woeid']
+try:
+    woeid = weather[0]['woeid']
 
+    ENDPOINT = "/api/location/"
+    LOCATION_WOEID = str(woeid)
 
-ENDPOINT = "/api/location/"
-LOCATION_WOEID = str(woeid)
+    conn = http.client.HTTPSConnection(HOSTNAME)
 
-conn = http.client.HTTPSConnection(HOSTNAME)
+    conn.request(METHOD, ENDPOINT + LOCATION_WOEID + '/', None, headers)
 
-conn.request(METHOD, ENDPOINT + LOCATION_WOEID + '/', None, headers)
+    r1 = conn.getresponse()
+    text_json = r1.read().decode("utf-8")
+    conn.close()
 
-r1 = conn.getresponse()
-text_json = r1.read().decode("utf-8")
-conn.close()
+    # -- Generate the object from the json file
+    weather = json.loads(text_json)
 
-# -- Optionally you can print the
-# -- received json file for testing
-# print(text_json)
+    time = weather['time']
+    temp0 = weather['consolidated_weather'][0]
+    sun_set = weather['sun_set']
+    temp = temp0['the_temp']
+    place = weather['title']
 
-# -- Generate the object from the json file
-weather = json.loads(text_json)
-
-time = weather['time']
-temp0 = weather['consolidated_weather'][0]
-sun_set = weather['sun_set']
-temp = temp0['the_temp']
-place = weather['title']
-
-print()
-print("Place: {}".format(place))
-print("Time: {}".format(time))
-print("Sun set: {}".format(sun_set))
-print("Current temp: {} degrees".format(temp))
-
-# Falta hacer que si introduce mal la ciudad que salga
+    print()
+    print("Place: {}".format(place))
+    print("Time: {}".format(time))
+    print("Sun set: {}".format(sun_set))
+    print("Current temp: {} degrees".format(temp))
+except IndexError:
+    print("Error, capital not found")
+    sys.exit(1)
